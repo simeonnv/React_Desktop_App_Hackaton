@@ -5,9 +5,11 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 
+import vue from '@astrojs/vue';
+
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), mdx()],
+  integrations: [react(), mdx(), vue()],
 
   vite: {
     plugins: [tailwindcss()]

@@ -3,7 +3,8 @@ use std::sync::Arc;
 use actix_cors::Cors;
 use chrono::{DateTime, Local};
 // use libs::auth::create_account::create_account;
-use libs::db;
+use libs::{auth::create_account::create_account, db};
+use routes::auth::auth;
 use tokio::sync::{Mutex, OnceCell};
 
 use actix_web::{middleware::Logger, web, App, HttpServer};
@@ -16,7 +17,7 @@ pub mod api_docs;
 pub mod config;
 pub mod error;
 pub mod libs;
-// pub mod routes;
+pub mod routes;
 
 static DB: OnceCell<Pool<Postgres>> = OnceCell::const_new();
 type SharedSessions = Arc<Mutex<Vec<Session>>>;
@@ -33,13 +34,15 @@ async fn main() -> std::io::Result<()> {
     db::init_pool::init_pool().await.expect("Failed to initialize database");
     db::init_tables::init_tables().await.expect("Failed to initialize tables");
 
+    let _ = create_account(&"admin".to_string(), &"admin".to_string(), "admin").await;
+
     
 
     HttpServer::new(|| {
                 
         let cors = Cors::default()
-            .allow_any_origin() // Allow any origin
-            .allowed_methods(vec!["GET", "POST", "PUT", "DELETE", "OPTIONS"]) // Allow all methods
+            .allow_any_origin()
+            .allowed_methods(vec!["GET", "POST", "PUT", "DELETE", "OPTIONS"])
             .allowed_headers(vec![
                 actix_web::http::header::AUTHORIZATION,
                 actix_web::http::header::ACCEPT,
@@ -52,10 +55,11 @@ async fn main() -> std::io::Result<()> {
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
             
+            .service(auth())
+
             .service(SwaggerUi::new("/{_:.*}").url("/api-docs/openapi.json", api_docs::ApiDoc::openapi()))
     })
     .bind((config::LISTENING_ON, config::PORT))?
-    // .bind_rustls_0_23((config::LISTENING_ON, config::PORT), tls_config)?
     .run()
     .await
 }

@@ -12,6 +12,7 @@ pub struct ErrorRes {
 
 #[derive(Debug)]
 pub enum Error {
+    Conflict(String),
     BadRequest(String),
     Internal(String),
     UniqueNameViolation(String),
@@ -21,6 +22,7 @@ pub enum Error {
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Error::Conflict(msg) => write!(f, "Conflict: {}", msg),
             Error::BadRequest(msg) => write!(f, "Bad request: {}", msg),
             Error::Internal(msg) => write!(f, "Internal error: {}", msg),
             Error::UniqueNameViolation(msg) => write!(f, "Unique constraint violation: {}", msg),
@@ -32,6 +34,10 @@ impl fmt::Display for Error {
 impl ResponseError for Error {
     fn error_response(&self) -> HttpResponse {
         match self {
+            Error::Conflict(msg) => HttpResponse::Conflict().json(ErrorRes {
+                status: msg.to_string(),
+                data: "",
+            }),
             Error::BadRequest(msg) => HttpResponse::BadRequest().json(ErrorRes {
                 status: msg.to_string(),
                 data: "",
