@@ -12,6 +12,17 @@ services:
     networks:
       - main
 
+  hackaton_frontend:
+    build: ./src/frontend
+    ports:
+      - "7004:7004"
+    volumes:
+      - hackaton:/usr/src/hackaton_frontend
+    depends_on:
+      - hackaton_backend
+    networks:
+      - main
+
   hackaton_database:
     image: postgres:latest
     environment:
