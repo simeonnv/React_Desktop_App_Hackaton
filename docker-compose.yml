@@ -1,0 +1,45 @@
+services:
+  hackaton_backend:
+    build: ./src/backend
+    ports:
+      - "6004:6004"
+    volumes:
+      - hackaton:/usr/src/hackaton_backend
+    depends_on:
+      - hackaton_database
+    environment:
+      - RUST_LOG=info
+    networks:
+      - main
+
+  hackaton_database:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DATABASE=my_database
+    volumes:
+      - hackaton:/var/lib/postgres
+    networks:
+      - main
+
+  # hackaton_frontend:
+  #   build: ./src/frontend
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - hackaton:/usr/src/hackaton_frontend
+  #   depends_on:
+  #     - hackaton_backend
+  #   # environment:
+  #   #   - RUST_LOG=info
+  #   networks:
+  #     - main
+
+
+volumes:
+  hackaton: 
+    external: true 
+
+networks:
+  main:
+    external: true 
