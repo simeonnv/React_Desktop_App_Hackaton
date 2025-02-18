@@ -1,15 +1,12 @@
 use actix_web::{
     body::MessageBody,
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
-    error::ResponseError,
-    Error, HttpMessage, HttpResponse,
+    Error, HttpMessage,
 };
 use sqlx::types::chrono::NaiveDateTime;
-use sqlx::Error as SqlxError;
 use crate::error::Error as ErrorHandler;
 use std::future::{ready, Ready};
 use std::rc::Rc;
-use std::fmt;
 
 use crate::libs::db::get_pool::get_pool;
 
