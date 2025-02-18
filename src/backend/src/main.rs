@@ -4,10 +4,10 @@ use actix_cors::Cors;
 use chrono::{DateTime, Local};
 // use libs::auth::create_account::create_account;
 use libs::{auth::create_account::create_account, db};
-use routes::auth::auth;
+use routes::{auth::auth, files::image};
 use tokio::sync::{Mutex, OnceCell};
 
-use actix_web::{middleware::Logger, web, App, HttpServer};
+use actix_web::{middleware::Logger, web::{self, PayloadConfig}, App, HttpServer};
 use env_logger::Env;
 use sqlx::{Pool, Postgres};
 use utoipa::OpenApi;
@@ -49,13 +49,18 @@ async fn main() -> std::io::Result<()> {
             ])
             .allowed_header(actix_web::http::header::CONTENT_TYPE)
             .max_age(3600);
+                // fuck cors
 
         App::new()
             .wrap(cors)
+
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
             
+            .app_data(PayloadConfig::new(32 * 1024 * 1024)) // the max upload is 32mb the voices
+
             .service(auth())
+            .service(image())
 
             .service(SwaggerUi::new("/{_:.*}").url("/api-docs/openapi.json", api_docs::ApiDoc::openapi()))
     })

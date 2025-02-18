@@ -41,8 +41,8 @@ struct Res {
 #[post("/signup")]
 pub async fn signup(req: web::Json<Req>) -> Result<HttpResponse, Error> {
 
-    insure_len(&req.username, 6, 15)?;
-    insure_len(&req.password, 6, 30)?;
+    insure_len(&req.username, 5, 15)?;
+    insure_len(&req.password, 5, 30)?;
     
     does_account_exist(&req.username).await?;
 

@@ -1,4 +1,4 @@
-pub const QUERIES: [&str; 2] = [
+pub const QUERIES: [&str; 3] = [
     r#"
         CREATE TABLE IF NOT EXISTS Accounts (
 
@@ -20,7 +20,20 @@ pub const QUERIES: [&str; 2] = [
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE
         );
-    "#
+    "#,
+    r#"
+        CREATE TABLE IF NOT EXISTS Files (
+            file_id SERIAL PRIMARY KEY NOT NULL,
+            file_blob BYTEA NOT NULL,
+            size INT NOT NULL,
+            file_type VARCHAR(256) NOT NULL,
+
+            account_id INT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            
+            FOREIGN KEY (account_id) REFERENCES Accounts(account_id)
+        );
+    "#,
 ];
 
 

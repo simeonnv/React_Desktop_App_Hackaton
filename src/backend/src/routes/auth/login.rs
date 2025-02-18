@@ -44,8 +44,8 @@ struct Res {
 #[post("/login")]
 pub async fn login(req: web::Json<Req>) -> Result<HttpResponse, Error> {
 
-    insure_len(&req.username, 6, 15)?;
-    insure_len(&req.password, 6, 30)?;
+    insure_len(&req.username, 5, 15)?;
+    insure_len(&req.password, 5, 30)?;
 
     let account = check_credentials(&req.username, &req.password).await?;
 
