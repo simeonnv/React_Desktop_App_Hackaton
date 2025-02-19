@@ -22,9 +22,6 @@ pub struct Req {
 #[utoipa::path(
     post,
     path = "/files",
-    params(
-        ("file_id" = String, Path, description = "Unique file ID")
-    ),
     request_body = PostFilesIdReqDocs,
     responses(
         (status = 200, description = "Signup successful", body = PostFilesIdResDocs, example = json!({
@@ -46,13 +43,13 @@ pub struct Req {
     tag = "Files"
 )]
 #[post("")]
-async fn post_files_id(token_data: HttpRequest, req: web::Json<Req>) -> Result<HttpResponse, Error> {
+async fn post_files(token_data: HttpRequest, req: web::Json<Req>) -> Result<HttpResponse, Error> {
     if let Some(account_info) = token_data.extensions().get::<AccountData>() {
 
         let file_id = upload_file(&req.file_blob, account_info.id).await?;
 
         return Ok(HttpResponse::Ok().json(Res {
-            status: "Success",
+            status: "success",
             data: Some(file_id),
         }))
 

@@ -1,13 +1,11 @@
-use std::sync::Arc;
 
 use actix_cors::Cors;
-use chrono::{DateTime, Local};
 // use libs::auth::create_account::create_account;
 use libs::{auth::create_account::create_account, db};
-use routes::{auth::auth, files::image};
-use tokio::sync::{Mutex, OnceCell};
+use routes::{auth::auth, files::files};
+use tokio::sync::OnceCell;
 
-use actix_web::{middleware::Logger, web::{self, PayloadConfig}, App, HttpServer};
+use actix_web::{middleware::Logger, web::PayloadConfig, App, HttpServer};
 use env_logger::Env;
 use sqlx::{Pool, Postgres};
 use utoipa::OpenApi;
@@ -20,12 +18,7 @@ pub mod libs;
 pub mod routes;
 
 static DB: OnceCell<Pool<Postgres>> = OnceCell::const_new();
-type SharedSessions = Arc<Mutex<Vec<Session>>>;
-pub struct Session {
-    started: DateTime<Local>,
-    uuid: String
-}
-
+    
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
 
@@ -60,7 +53,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(PayloadConfig::new(32 * 1024 * 1024)) // the max upload is 32mb the voices
 
             .service(auth())
-            .service(image())
+            .service(files())
 
             .service(SwaggerUi::new("/{_:.*}").url("/api-docs/openapi.json", api_docs::ApiDoc::openapi()))
     })

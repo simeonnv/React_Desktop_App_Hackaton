@@ -59,7 +59,7 @@ async fn get_files_id(
         let file = get_file(file_id).await?;
         
         return Ok(HttpResponse::Ok().json(Res {
-            status: "Success",
+            status: "success",
             data: Some(file),
         }))
 

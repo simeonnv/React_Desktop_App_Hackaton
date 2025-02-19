@@ -8,7 +8,7 @@
     </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -17,11 +17,11 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const fileInput = ref(null);
+const fileInput: any = ref(null);
 const previewUrl = ref('');
 const uploadError = ref('');
 
-const handleFileUpload = async (event) => {
+const handleFileUpload = async (event: any) => {
     const file = event.target.files[0];
 
     if (!file) return;
@@ -38,7 +38,7 @@ const handleFileUpload = async (event) => {
 
     // Show preview (same as before)
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = (e: any) => {
         previewUrl.value = e.target.result;
     };
     reader.readAsDataURL(file);
@@ -51,7 +51,7 @@ const handleFileUpload = async (event) => {
             file_blob: [...byteArray]
         };
 
-        const response = await fetch('YOUR_BACKEND_ENDPOINT', {
+        const response = await fetch('http://localhost:6004/files', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ const handleFileUpload = async (event) => {
         uploadError.value = '';
         fileInput.value.value = '';
 
-    } catch (err) {
+    } catch (err: any) {
         uploadError.value = err.message || 'Failed to upload image';
         console.error('Upload error:', err);
     }

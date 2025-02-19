@@ -3,15 +3,15 @@ use crate::libs::auth::auth_middleware::AuthMiddleware;
 
 // pub mod post_image_id;
 pub mod get_files_id;
-pub mod post_files_id;
+pub mod post_files;
 
 
 
-pub fn image() -> Scope<impl ServiceFactory<ServiceRequest, Config = (), Response = ServiceResponse, Error = Error, InitError = ()>> {
-    web::scope("/image")
+pub fn files() -> Scope<impl ServiceFactory<ServiceRequest, Config = (), Response = ServiceResponse, Error = Error, InitError = ()>> {
+    web::scope("/files")
         .wrap(AuthMiddleware)
 
-        // .service(post_files_id::post_files_id)
+        .service(post_files::post_files)
         .service(get_files_id::get_files_id)
         
 }
