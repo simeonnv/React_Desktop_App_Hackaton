@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.8",
+    "@astrojs/node": "^9.1.0",
     "@astrojs/react": "^4.2.0",
     "@astrojs/vue": "^5.0.6",
     "@tailwindcss/vite": "^4.0.6",

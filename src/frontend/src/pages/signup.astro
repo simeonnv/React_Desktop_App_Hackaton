@@ -1,5 +1,10 @@
 ---
+import { ref } from 'vue';
+import ImageUpload from '../components/ui/ImageUpload.vue';
+import Image from '../components/ui/Image.vue';
 import "../styles/index.css";
+
+let imageId = ref('');
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +52,6 @@ import "../styles/index.css";
           </form>
         </div>
       </div>
-
       <div class="panels-container">
         <div class="panel left-panel">
           <div class="content">
@@ -60,7 +64,6 @@ import "../styles/index.css";
               Sign up
             </button>
           </div>
-          <img src="../assets/rocket.svg" class="image" alt="" />
         </div>
         <div class="panel right-panel">
           <div class="content">
@@ -73,7 +76,6 @@ import "../styles/index.css";
               Sign in
             </button>
           </div>
-          <img src="../assets/rocket.svg" class="image" alt="" />
         </div>
       </div>
     </div>

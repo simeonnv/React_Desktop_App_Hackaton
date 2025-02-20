@@ -37,7 +37,7 @@ pub struct AuthMiddlewareService<S> {
 #[derive(sqlx::FromRow, Debug)]
 #[allow(dead_code)]
 pub struct AccountData {
-    pub id: i64,
+    pub id: i32,
     pub token: String,
     pub role: String,
     pub token_creation_date: NaiveDateTime,
@@ -83,8 +83,8 @@ where
                         FROM
                             Tokens
                         INNER JOIN Accounts ON
-                            Tokens.user_id = Accounts.account_id
-                        WHERE token = ?;
+                            Tokens.account_id = Accounts.account_id
+                        WHERE token = $1;
                     "#)
                         .bind(token)
                         .fetch_optional(pool)
