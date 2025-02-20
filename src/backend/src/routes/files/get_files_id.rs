@@ -52,7 +52,7 @@ async fn get_files_id(
     token_data: HttpRequest,
     path: web::Path<String>,
 ) -> Result<HttpResponse, Error> {
-    // if let Some(_) = token_data.extensions().get::<AccountData>() {
+    if let Some(_) = token_data.extensions().get::<AccountData>() {
 
         let file_id = path.parse::<i32>().map_err(|_| Error::NotFound("incorrect file_id".to_string()))?;
 
@@ -63,12 +63,12 @@ async fn get_files_id(
             data: Some(file),
         }))
 
-    // } else {
-    //     return Ok(HttpResponse::Unauthorized().json(Res {
-    //         status: "Unauthorized access",
-    //         data: None,
-    //     }))
-    // }
+    } else {
+        return Ok(HttpResponse::Unauthorized().json(Res {
+            status: "Unauthorized access",
+            data: None,
+        }))
+    }
 }
 
 

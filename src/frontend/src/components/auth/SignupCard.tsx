@@ -85,9 +85,9 @@ export function SignupCard() {
   const { mutate, isPending, isError, error } = useMutation<Res, Error, Req>({
     mutationFn: SignupUser,
     onSuccess: (data) => {
-      console.log('Signup successful!', data);
-      alert('Signup successful!');
-      // Redirect or update state here
+      localStorage.setItem('token', data.data);
+      document.cookie = `auth-token=${data.data}; path=/; secure; samesite=strict`;
+      window.location.href = '/';
     },
     onError: (error) => {
       console.error('Signup error:', error);
