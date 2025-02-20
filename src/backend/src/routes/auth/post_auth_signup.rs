@@ -39,7 +39,7 @@ struct Res {
     tag = "Auth"
 )]
 #[post("/signup")]
-pub async fn signup(req: web::Json<Req>) -> Result<HttpResponse, Error> {
+pub async fn post_auth_signup(req: web::Json<Req>) -> Result<HttpResponse, Error> {
 
     insure_len(&req.username, 5, 15)?;
     insure_len(&req.password, 5, 30)?;
