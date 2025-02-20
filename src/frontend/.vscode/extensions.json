@@ -1,4 +1,7 @@
 {
   "recommendations": ["astro-build.astro-vscode"],
-  "unwantedRecommendations": []
+  "unwantedRecommendations": [],
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
 }

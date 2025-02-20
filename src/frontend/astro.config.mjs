@@ -20,7 +20,7 @@ export default defineConfig({
     port: 7004,
   },
 
-  prefetch: true,
+  // prefetch: true,
   output: "server",
 
   vite: {
