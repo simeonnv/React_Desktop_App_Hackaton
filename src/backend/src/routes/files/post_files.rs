@@ -44,21 +44,21 @@ pub struct Req {
 )]
 #[post("")]
 async fn post_files(token_data: HttpRequest, req: web::Json<Req>) -> Result<HttpResponse, Error> {
-    if let Some(account_info) = token_data.extensions().get::<AccountData>() {
+    // if let Some(account_info) = token_data.extensions().get::<AccountData>() {
 
-        let file_id = upload_file(&req.file_blob, account_info.id).await?;
+        let file_id = upload_file(&req.file_blob, 1).await?;
 
         return Ok(HttpResponse::Ok().json(Res {
             status: "success",
             data: Some(file_id),
         }))
 
-    } else {
-        return Ok(HttpResponse::Unauthorized().json(Res {
-            status: "Unauthorized access",
-            data: None,
-        }))
-    }
+    // } else {
+    //     return Ok(HttpResponse::Unauthorized().json(Res {
+    //         status: "Unauthorized access",
+    //         data: None,
+    //     }))
+    // }
 }
 
 

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import { useFetch } from '../../util/useFetch'
 
 const props = defineProps({
   id: {
@@ -9,38 +10,15 @@ const props = defineProps({
 })
 
 const imageSrc = ref('')
-const error = ref(null)
-
-async function fetchImage(id) {
-  try {
-    const response = await fetch(`http://localhost:6004/files/${id}`)
-    const result = await response.json()
-    if (result.status !== 'success') {
-      throw new Error('Failed to fetch image')
-    }
-    const imageData = result.data
-
-    const byteArray = new Uint8Array(imageData.file_blob)
-    const blob = new Blob([byteArray], { type: imageData.file_type })
+const { data, error } = useFetch(() => `http://localhost:6004/files/${props.id}`, "GET", undefined,  () => {
+    const byteArray = new Uint8Array(data.value.data.file_blob)
+    console.log(byteArray)
+    const blob = new Blob([byteArray], { type: data.value.data.file_type })
+    console.log(blob)
     imageSrc.value = URL.createObjectURL(blob)
-  } catch (err) {
-    console.error(err)
-    error.value = err
-  }
-}
-
-onMounted(() => {
-  fetchImage(props.id)
+    
 })
 
-watch(
-  () => props.id,
-  (newId) => {
-    if (newId) {
-      fetchImage(newId)
-    }
-  }
-)
 </script>
 
 <template>

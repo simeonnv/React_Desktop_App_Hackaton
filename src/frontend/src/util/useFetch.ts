@@ -1,6 +1,6 @@
 import { ref, watchEffect, toValue } from 'vue'
 
-export function useFetch(url: any) {
+export function useFetch(url: any, method: string, payload: any, post: () => void | undefined) {
   const data = ref(null)
   const error = ref(null)
 
@@ -9,9 +9,20 @@ export function useFetch(url: any) {
     data.value = null
     error.value = null
 
-    fetch(toValue(url))
+    const options = {
+      method: method,
+      headers: method === "POST" ? {
+          'Content-Type': 'application/json',
+      } : undefined,
+      body: payload === undefined ? JSON.stringify(payload) : undefined
+    }
+
+    fetch(toValue(url), options)
       .then((res) => res.json())
-      .then((json) => (data.value = json))
+      .then((json) => {
+        data.value = json
+        if (post) post()
+      })
       .catch((err) => (error.value = err))
   }
 

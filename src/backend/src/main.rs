@@ -50,7 +50,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
             
-            .app_data(PayloadConfig::new(32 * 1024 * 1024)) // the max upload is 32mb the voices
+            .app_data(PayloadConfig::new(64 * 1024 * 1024)) // the max upload is 32mb the voices
 
             .service(auth())
             .service(files())
