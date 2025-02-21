@@ -1,7 +1,7 @@
 
 use actix_cors::Cors;
 // use libs::auth::create_account::create_account;
-use libs::{auth::create_account::create_account, db, docker::execute_command};
+use libs::{auth::create_account::create_account, db};
 use routes::{auth::auth, files::files};
 use tokio::sync::OnceCell;
 
@@ -29,7 +29,7 @@ async fn main() -> std::io::Result<()> {
 
     // let _ = create_account(&"admin".to_string(), &"admin".to_string(), "admin").await;
 
-    dbg!(libs::docker::get_containers::get_containers().await);
+    
 
     HttpServer::new(|| {
                 

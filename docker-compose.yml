@@ -5,8 +5,6 @@ services:
       - "6004:6004"
     volumes:
       - hackaton:/usr/src/hackaton_backend
-      - /var/run/docker.sock:/var/run/docker.sock 
-      - /usr/bin/docker:/usr/bin/docker
     depends_on:
       - hackaton_database
     environment:
