@@ -10,6 +10,7 @@ pub const DB_USERNAME: &str = "postgres";
 pub const DB_PASSWORD: &str = "root"; 
 
 
+
 pub const ARGON2_PARAMS: Result<Params, argon2::Error> = Params::new(
     8192, // Memory cost
     1,    // Iterations

@@ -8,30 +8,51 @@ const AuthMiddleware = defineMiddleware(async (context, next) => {
     const token: any = context.request.headers.get('authorization') ||
         context.cookies.get('auth-token');
 
+    let exists = true;
+    // try {
+        const existsRes = await fetch(`http://localhost:6004/auth/exists`, {method: "GET"});
+        console.log("existsRes ", existsRes)
+        if (existsRes.ok) {
+            exists = (await existsRes.json()).data
+        }
+    // } catch {}
+
+    console.log(exists);
 
     if (!token) {
         if (PUBLIC_ROUTES.includes(context.url.pathname)) {
-        return next();
-    }
-        return Response.redirect(new URL('/signup', context.url));
-    }
-
-
-    const response = await fetch("http://localhost:6004/auth/validate", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token.value}`
+            return next();
         }
-    });
+
+        if (exists)
+            return Response.redirect(new URL('/login', context.url));
+        else
+            return Response.redirect(new URL('/signup', context.url));
+    }
 
 
-    if (response.ok) {
-        const result = await response.json();
-        context.locals.user = result.data;
+    const validateRes = await fetch(
+        `http://localhost:6004/auth/validate`, // Use environment variable
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token.value}`
+            }
+        }
+    );
+
+
+
+    if (validateRes.ok) {
+        const validateResult = await validateRes.json();
+        context.locals.user = validateResult.data;
         return next();
     } else {
-        return Response.redirect(new URL('/signup', context.url));
+        if (exists)
+            return Response.redirect(new URL('/login', context.url));
+        else
+            return Response.redirect(new URL('/signup', context.url));
     }
 });
 

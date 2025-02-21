@@ -11,24 +11,20 @@ struct Res {
 }
 
 
-pub async fn does_account_exist(username: &String) -> Result<(), Error> {
+pub async fn does_account_exist() -> Result<bool, Error> {
 
     let pool = get_pool();
 
     let exists = sqlx::query_scalar(r#"
         SELECT EXISTS (
-            SELECT 1 FROM Accounts WHERE username = $1
+            SELECT 1 FROM Accounts
         );
     "#)
-        .bind(username)
         .fetch_one(pool)
         .await?;
 
     dbg!(&exists);
 
-    match exists {
-        false => Ok(()),
-        true => Err(Error::Conflict("Account already exists!".to_string()))
-    }
+    return Ok(exists)
     
 }

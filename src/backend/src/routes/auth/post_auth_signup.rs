@@ -44,7 +44,9 @@ pub async fn post_auth_signup(req: web::Json<Req>) -> Result<HttpResponse, Error
     insure_len(&req.username, 5, 15)?;
     insure_len(&req.password, 5, 30)?;
     
-    does_account_exist(&req.username).await?;
+    if does_account_exist().await? {
+        return Err(Error::NotFound("A main account already exists!".to_string()))
+    }
 
     let account_id = create_account(&req.username, &req.password, "user").await?;
 

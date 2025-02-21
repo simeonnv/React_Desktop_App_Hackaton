@@ -32,6 +32,7 @@ impl Modify for BearerAuthAddon {
         routes::auth::post_auth_signup::post_auth_signup,
         routes::auth::post_auth_login::post_auth_login,
         routes::auth::get_auth_validate::get_auth_validate,
+        routes::auth::get_auth_exists::get_auth_exists,
 
         routes::files::get_files_id::get_files_id,
         routes::files::post_files::post_files

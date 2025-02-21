@@ -22,6 +22,8 @@ services:
       - hackaton_backend
     networks:
       - main
+    environment:
+      - API_URL=http://backend_service:6004
 
   hackaton_database:
     image: postgres:latest
