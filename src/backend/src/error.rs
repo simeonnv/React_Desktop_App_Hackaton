@@ -1,4 +1,4 @@
-use std::fmt;
+use std::{fmt, str::Utf8Error, string::FromUtf8Error};
 
 use actix_web::{HttpResponse, ResponseError};
 use serde::{Deserialize, Serialize};
@@ -84,3 +84,20 @@ impl From<password_hash::Error> for Error {
     }
 }
 
+impl From<std::io::Error> for Error {
+    fn from(err: std::io::Error) -> Self {
+        Error::Internal(format!("IO error: {}", err))
+    }
+}
+
+impl From<FromUtf8Error> for Error {
+    fn from(err: FromUtf8Error) -> Self {
+        Error::Internal(format!("UTF-8 conversion error: {}", err))
+    }
+}
+
+impl From<Utf8Error> for Error {
+    fn from(err: Utf8Error) -> Self {
+        Error::Internal(format!("UTF-8 conversion error: {}", err))
+    }
+}

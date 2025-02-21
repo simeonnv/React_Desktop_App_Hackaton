@@ -1,8 +1,14 @@
 FROM rust as build
 
+# RUN apt-get update && apt-get install -y \
+#     curl \
+#     && curl -fsSL https://get.docker.com | sh \
+#     && rm -rf /var/lib/apt/lists/*
+
 # create a new empty shell project
 RUN USER=root cargo new --bin hackaton_backend
 WORKDIR /hackaton_backend
+
 
 # copy over your manifests
 COPY ./Cargo.toml ./Cargo.toml
