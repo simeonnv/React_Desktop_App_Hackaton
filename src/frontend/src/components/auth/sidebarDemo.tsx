@@ -1,13 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
-// import {
-//   IconArrowLeft,
-//   IconBrandTabler,
-//   IconSettings,
-//   IconUserBolt,
-// } from "@tabler/icons-react";
-// import { Link } from "react-router-dom"; // Import from react-router-dom instead of Next.js
+import ChartSVG from "../ui/chartSVG";
+import CirclePlusSVg from "../ui/circlePlusSVG";
+import NotificationSVG from "../ui/notificationSVG";
+import UserSVG from "../ui/userSVG";
+import HomeSVG from "../ui/homeSVG";
 import { motion } from "framer-motion";
 import { cn } from "../../lib/util/utils";
 import "../../styles/global.css";
@@ -15,32 +13,24 @@ import "../../styles/global.css";
 export function SidebarDemo() {
   const links = [
     {
-      label: "Dashboard",
+      label: "Home",
       href: "#",
-      //   icon: (
-      //     <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      //   ),
+      icon: <HomeSVG classes="h-5 w-5 flex-shrink-0" />,
     },
     {
-      label: "Profile",
+      label: "New container",
       href: "#",
-      //   icon: (
-      //     <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      //   ),
+      icon: <CirclePlusSVg classes="h-5 w-5 flex-shrink-0" />,
     },
     {
-      label: "Settings",
+      label: "Notifications",
       href: "#",
-      //   icon: (
-      //     <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      //   ),
+      icon: <NotificationSVG classes="h-5 w-5 flex-shrink-0" />,
     },
     {
-      label: "Logout",
+      label: "Charts",
       href: "#",
-      //   icon: (
-      //     <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      //   ),
+      icon: <ChartSVG classes="h-5 w-5 flex-shrink-0" />,
     },
   ];
   const [open, setOpen] = useState(false);
@@ -48,7 +38,7 @@ export function SidebarDemo() {
     <div
       className={cn(
         "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 max-w-7xl mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
-        "h-[60vh]" // for your use case, use `h-screen` instead of `h-[60vh]`
+        "h-[60vh]"
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
@@ -57,25 +47,16 @@ export function SidebarDemo() {
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 flex flex-col gap-2">
               {links.map((link, idx) => (
-                // <SidebarLink key={idx} link={link} />
-                <div>nz</div>
+                <SidebarLink key={idx} link={link} />
               ))}
             </div>
           </div>
           <div>
             <SidebarLink
               link={{
-                label: "Manu Arora",
+                label: "User",
                 href: "#",
-                icon: (
-                  <img
-                    src="https://assets.aceternity.com/manu.png"
-                    className="h-7 w-7 flex-shrink-0 rounded-full"
-                    width={50}
-                    height={50}
-                    alt="Avatar"
-                  />
-                ),
+                icon: <UserSVG classes="h-5 w-5 flex-schrink-0" />,
               }}
             />
           </div>
