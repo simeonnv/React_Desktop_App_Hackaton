@@ -49,7 +49,7 @@ struct Res {
             }]
         }))
     ),
-    tag = "Auth"
+    tag = "Docker"
 )]
 #[get("/containers")]
 pub async fn get_docker_containers() -> Result<HttpResponse, Error> {
