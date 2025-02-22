@@ -1,9 +1,11 @@
+"use client";
+
 import React, { useRef, useState } from "react";
 import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
 import { TypewriterEffectSmooth } from "../ui/typewriter-effect";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { cn } from "../../lib/util/utils";
+import { cn } from "../../lib/utils";
 import { QueryClient, QueryClientProvider, useMutation, useQuery } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
@@ -127,30 +129,31 @@ export function SignupCard() {
             <div><TypewriterEffectSmooth words={words} className="text-purple-500 text-xl"/></div>
           </CardItem>
 
-          <CardItem as="p" translateZ="60" className="text-neutral-500 !w-full px-5 text-sm mt-2 dark:text-neutral-300">
+          <CardItem as="div" translateZ="60" className="text-neutral-500 !w-full px-5 text-sm mt-2 dark:text-neutral-300">
             <LabelInputContainer className=" pb-6 !w-full">
               <Label htmlFor="username">Username</Label>
               <Input onChange={(e) => (usernameRef.current = e.target.value)} id="username" className="!w-full" placeholder="Enter Username" type="text" />
             </LabelInputContainer>
           </CardItem>
 
-          <CardItem as="p" translateZ="60" className="text-neutral-500 !w-full px-5 text-sm mt-2 dark:text-neutral-300">
+          <CardItem as="div" translateZ="60" className="text-neutral-500 !w-full px-5 text-sm mt-2 dark:text-neutral-300">
             <LabelInputContainer className="mb-4">
               <Label htmlFor="password">Password</Label>
               <Input onChange={(e) => (passwordRef.current = e.target.value)} id="password" placeholder="••••••••" type="password" />
             </LabelInputContainer>
           </CardItem>
 
-          <CardItem as="p" translateZ="60" className="text-neutral-500 w-full text-sm px-5 mt-2 dark:text-neutral-300">
-            <LabelInputContainer className="mb-4">
-              <Label htmlFor="password">Confirm Password</Label>
-              <Input onChange={(e) => (repeatPasswordRef.current = e.target.value)} id="password" placeholder="••••••••" type="password" />
-            </LabelInputContainer>
-            <div className="h-4">
+          <CardItem as="div" translateZ="60" className="text-neutral-500 w-full text-sm px-5 mt-2 dark:text-neutral-300">
+          <LabelInputContainer className="mb-4">
+            <Label htmlFor="password">Confirm Password</Label>
+            <Input onChange={(e) => (repeatPasswordRef.current = e.target.value)} id="password" placeholder="••••••••" type="password" />
+          </LabelInputContainer>
+          <div className="h-4">
             {isError && <p style={{ color: 'red' }}>{error.message}</p>}
             {inputPasswordError.error && <p style={{ color: 'red' }}>{inputPasswordError.message}</p>}
-            </div>
-          </CardItem>
+          </div>
+        </CardItem>
+
           
           <div className="flex justify-between items-center mt-10">
             <CardItem translateZ={20} href="/login" target="__blank" className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white dark:hover:text-gray-400">
