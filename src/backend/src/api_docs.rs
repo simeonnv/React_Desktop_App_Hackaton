@@ -39,7 +39,8 @@ impl Modify for BearerAuthAddon {
 
         routes::docker::socket_docker_crashes::socket_docker_crashes,
         routes::docker::get_docker_containers::get_docker_containers,
-        routes::docker::socket_docker_usage::socket_docker_usage
+        routes::docker::socket_docker_usage::socket_docker_usage,
+        routes::docker::socket_docker_logs::socket_docker_logs
         
     ),
     tags(
