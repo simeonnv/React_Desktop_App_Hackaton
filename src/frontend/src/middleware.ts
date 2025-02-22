@@ -10,7 +10,7 @@ const AuthMiddleware = defineMiddleware(async (context, next) => {
 
     let exists = true;
     // try {
-        const existsRes = await fetch(`http://localhost:6004/auth/exists`, {method: "GET"});
+        const existsRes = await fetch(`http://hackaton_backend:6004/auth/exists`, {method: "GET"});
         console.log("existsRes ", existsRes)
         if (existsRes.ok) {
             exists = (await existsRes.json()).data
@@ -32,7 +32,7 @@ const AuthMiddleware = defineMiddleware(async (context, next) => {
 
 
     const validateRes = await fetch(
-        `http://localhost:6004/auth/validate`, // Use environment variable
+        `http://hackaton_backend:6004/auth/validate`, // Use environment variable
         {
             method: "GET",
             headers: {

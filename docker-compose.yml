@@ -5,6 +5,9 @@ services:
       - "6004:6004"
     volumes:
       - hackaton:/usr/src/hackaton_backend
+      - /var/run/docker.sock:/var/run/docker.sock 
+      - /usr/bin/docker:/usr/bin/docker
+      - //./pipe/docker_engine://./pipe/docker_engine
     depends_on:
       - hackaton_database
     environment:
@@ -17,13 +20,14 @@ services:
     ports:
       - "7004:7004"
     volumes:
-      - hackaton:/usr/src/hackaton_frontend
+      - ./src/frontend:/app
+      - /app/node_modules
     depends_on:
       - hackaton_backend
     networks:
       - main
-    environment:
-      - API_URL=http://backend_service:6004
+    # environment:
+    #   - API_URL=http://backend_service:6004
 
   hackaton_database:
     image: postgres:latest
