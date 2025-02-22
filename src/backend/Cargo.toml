@@ -19,3 +19,8 @@ utoipa-swagger-ui = { version = "9.0.0", features = ["actix-web", "vendored"] }
 infer = "0.19.0"
 uuid = { version = "1.4", features = ["v4"] }
 bollard = "0.18.1"
+actix-web-actors = "4.3.1"
+actix = "0.13.5"
+serde_json = "1.0.139"
+actix-rt = "2.10.0"
+futures-util = "0.3.31"

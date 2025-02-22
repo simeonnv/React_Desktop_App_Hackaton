@@ -1,8 +1,8 @@
 
 use actix_cors::Cors;
 // use libs::auth::create_account::create_account;
-use libs::{auth::create_account::create_account, db, docker::{self, get_errors::get_errors}};
-use routes::{auth::auth, files::files};
+use libs::{auth::create_account::create_account, db, docker};
+use routes::{auth::auth, files::files, docker::docker};
 use tokio::sync::OnceCell;
 
 use actix_web::{middleware::Logger, web::PayloadConfig, App, HttpServer};
@@ -34,7 +34,7 @@ async fn main() -> std::io::Result<()> {
 
     let _ = create_account(&"admin".to_string(), &"admin".to_string(), "admin").await;
     
-    // dbg!(get_errors().await);
+    
 
     HttpServer::new(|| {
                 
@@ -59,6 +59,7 @@ async fn main() -> std::io::Result<()> {
 
             .service(auth())
             .service(files())
+            .service(docker())
 
             .service(SwaggerUi::new("/{_:.*}").url("/api-docs/openapi.json", api_docs::ApiDoc::openapi()))
     })
