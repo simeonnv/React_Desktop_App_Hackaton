@@ -1,32 +1,10 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import "../styles/global.css";
-import { FloatingDock } from '../components/ui/FloatingDock';
-import { FaHome, FaInfoCircle } from 'react-icons/fa';
-import { MdAccountCircle } from 'react-icons/md';
 
-
-const items = [
-  {
-    title: 'Home',
-    icon: 'fa-solid fa-house', // Font Awesome icon classes
-    href: '/home',
-  },
-  {
-    title: 'About',
-    icon: 'fa-solid fa-circle-info',
-    href: '/about',
-  },
-  {
-    title: 'Profile',
-    icon: 'fa-solid fa-user',
-    href: '/profile',
-  },
-];
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 
 ---
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-<div class="w-full h-screen flex flex-col justify-center">
-  <FloatingDock items={items} client:only="react" />
-</div>
+<Welcome />
