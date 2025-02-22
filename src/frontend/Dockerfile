@@ -12,4 +12,4 @@ COPY . .
 
 # CMD ["node", "./dist/server/entry.mjs"]
 CMD ["npm", "run", "dev"]
-EXPOSE 7004
+EXPOSE 7004 
