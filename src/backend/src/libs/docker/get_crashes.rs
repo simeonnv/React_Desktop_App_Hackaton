@@ -1,17 +1,18 @@
 use std::string;
 
 use bollard::{container::InspectContainerOptions, secret::ContainerStateStatusEnum, Docker};
+use utoipa::ToSchema;
 use crate::{error, DOCKER};
 
 use super::{get_containers::get_containers, get_docker::get_docker};
 
-#[derive(sqlx::FromRow, Debug, serde::Serialize)]
+#[derive(sqlx::FromRow, Debug, serde::Serialize, ToSchema)]
 pub struct CrashedContainer {
     pub container_id: String,
     pub container_names: Vec<String>,
     pub running: bool,
     pub exit_code: i64,
-    pub status: ContainerStateStatusEnum,
+    pub status: i8,
     pub error: String,
     pub started_at: String,
     pub finished_at: String,
@@ -48,7 +49,7 @@ pub async fn get_crashes() -> Result<Vec<CrashedContainer>, error::Error> {
                             container_names: container.names,
                             running: running,
                             exit_code: exit_code,
-                            status: status,
+                            status: 6,
                             error: error,
                             started_at: started_at,
                             finished_at: finished_at,

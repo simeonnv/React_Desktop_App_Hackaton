@@ -3,6 +3,7 @@ use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer};
 use actix_web_actors::ws;
 use bollard::secret::ContainerStateStatusEnum;
 use serde::{Deserialize, Serialize};
+use utoipa::ToSchema;
 use std::time::{Duration, Instant};
 use tokio::time::interval;
 
@@ -73,11 +74,34 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for MyWebSocket {
     }
 }
 
+#[derive(Serialize, ToSchema)]
+struct SocketDockerCrashesResDocs {
+    status: &'static str,
+    data: Vec<CrashedContainer>,
+}
+
 #[utoipa::path(
     get,
     path = "/docker/crashes",
     responses(
-        (status = 101, description = "WebSocket connection established", content_type = "text/plain"),
+        (status = 101, description = "WebSocket connection established", body = SocketDockerCrashesResDocs, example = json!({
+            "status": "success",
+            "data": [
+                {
+                  "container_id": "4e678563469271a6c7ae113be6b3a3bc3f627c6f7646e0df2d44250e5b55fd10",
+                  "container_names": [
+                    "/practical_cohen"
+                  ],
+                  "running": false,
+                  "exit_code": 101,
+                  "status": "exited",
+                  "error": "",
+                  "started_at": "2025-02-10T18:18:24.06822891Z",
+                  "finished_at": "2025-02-10T18:18:54.389672353Z",
+                  "died_to_oom": false
+                }
+            ]
+        })),
         (status = 400, description = "Bad request - WebSocket upgrade failed")
     ),
     params(

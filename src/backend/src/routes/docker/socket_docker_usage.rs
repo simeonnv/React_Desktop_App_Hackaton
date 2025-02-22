@@ -5,10 +5,13 @@ use bollard::secret::ContainerStateStatusEnum;
 use serde::{Deserialize, Serialize};
 use std::time::{Duration, Instant};
 use tokio::time::interval;
+use utoipa::ToSchema;
 
-use crate::libs::docker::get_crashes::{get_crashes, CrashedContainer};
+use crate::libs::docker::{
+    get_crashes::{get_crashes, CrashedContainer},
+    get_usage::{get_usage, Stats},
+};
 
-// WebSocket actor
 struct MyWebSocket {
     hb: Instant,
 }
@@ -18,15 +21,15 @@ impl Actor for MyWebSocket {
 
     fn started(&mut self, ctx: &mut Self::Context) {
         self.hb = Instant::now();
-        
+
         let addr = ctx.address();
         actix_rt::spawn(async move {
             let mut interval = interval(Duration::from_secs(10));
-            
+
             loop {
                 interval.tick().await;
-                
-                match get_crashes().await {
+
+                match get_usage().await {
                     Ok(containers) => {
                         if let Ok(json) = serde_json::to_string(&containers) {
                             addr.do_send(WsMessage(json));
@@ -34,7 +37,7 @@ impl Actor for MyWebSocket {
                     }
                     Err(e) => {
                         // Handle error - maybe log it
-                        eprintln!("Error getting crashes: {:?}", e);
+                        eprintln!("Error getting usage: {:?}", e);
                     }
                 }
             }
@@ -42,7 +45,6 @@ impl Actor for MyWebSocket {
     }
 }
 
-// Message type for sending data to websocket
 #[derive(Message)]
 #[rtype(result = "()")]
 struct WsMessage(String);
@@ -73,11 +75,40 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for MyWebSocket {
     }
 }
 
+#[derive(Serialize, ToSchema)]
+struct SocketDockerUsageResDocs {
+    status: &'static str,
+    data: Vec<Stats>,
+}
+
 #[utoipa::path(
     get,
     path = "/docker/usage",
     responses(
-        (status = 101, description = "WebSocket connection established", content_type = "text/plain"),
+        (status = 101, description = "WebSocket connection established", body = SocketDockerUsageResDocs, example = json!({
+            "status": "success",
+            "data": [
+                {
+                "read": "2025-02-22T12:28:07.770076583Z",
+                "names": [
+                  "/react_desktop_app_hackaton-hackaton_backend-1"
+                ],
+                "id": "c377b1e1bde7712280fd757235796736d09d5e1bd333bbe4198d1d5ba686152d",
+                "memory_stats": {
+                  "usage": 15470592,
+                  "limit": 334621286
+                },
+                "cpu_stats": {
+                  "online_cpus": 16,
+                  "total_usage": 554300000
+                },
+                "pids_stats": {
+                  "current": 18,
+                  "limit": 38202
+                }
+              },
+            ]
+        })),
         (status = 400, description = "Bad request - WebSocket upgrade failed")
     ),
     params(
@@ -97,15 +128,9 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for MyWebSocket {
     tag = "Docker",
     description = "Establishes a WebSocket connection that streams crashed container data every 10 seconds.\n\nMessages are sent as JSON arrays of CrashedContainer objects."
 )]
-pub async fn socket_docker_crashes(
+pub async fn socket_docker_usage(
     req: HttpRequest,
     stream: web::Payload,
 ) -> Result<HttpResponse, Error> {
-    ws::start(
-        MyWebSocket {
-            hb: Instant::now(),
-        },
-        &req,
-        stream,
-    )
+    ws::start(MyWebSocket { hb: Instant::now() }, &req, stream)
 }
