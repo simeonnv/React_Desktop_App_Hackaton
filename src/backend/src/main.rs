@@ -20,7 +20,7 @@ pub mod routes;
 static DB: OnceCell<Pool<Postgres>> = OnceCell::const_new();
 use bollard::Docker;
 
-static Docker: OnceCell<Docker> = OnceCell::const_new();
+static DOCKER: OnceCell<Docker> = OnceCell::const_new();
     
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -31,7 +31,6 @@ async fn main() -> std::io::Result<()> {
     db::init_tables::init_tables().await.expect("Failed to initialize tables");
 
     // let _ = create_account(&"admin".to_string(), &"admin".to_string(), "admin").await;
-    Docker::connect_with_local_defaults();
     
 
     HttpServer::new(|| {

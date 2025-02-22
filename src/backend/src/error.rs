@@ -84,3 +84,11 @@ impl From<password_hash::Error> for Error {
     }
 }
 
+
+impl From<bollard::errors::Error> for Error {
+    fn from(err: bollard::errors::Error) -> Self {
+        Error::Internal(format!("Docker error: {}", err))
+    }
+}
+
+
