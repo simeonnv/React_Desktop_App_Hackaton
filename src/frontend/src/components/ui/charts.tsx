@@ -5,6 +5,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  ResponsiveContainer,
 } from "recharts";
 const data = [
   {
@@ -53,17 +54,17 @@ const data = [
 
 export default function RenderLineChart() {
   return (
-    <LineChart
-      width={}
-      height={300}
-      data={data}
-      margin={{ top: 10, right: 20, bottom: 5, left: 20 }}
-    >
-      <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-      <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-    </LineChart>
+    <ResponsiveContainer width="100%" height="100%">
+      <LineChart
+        data={data}
+        margin={{ top: 20, right: 15, bottom: 20, left: -6 }}
+      >
+        <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+      </LineChart>
+    </ResponsiveContainer>
   );
 }
