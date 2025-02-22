@@ -21,7 +21,7 @@ pub struct Stats {
 pub struct MemoryStats { pub usage: u64, pub limit: u64 }
 
 #[derive(sqlx::FromRow, Debug, Serialize, ToSchema)]
-pub struct CpuStats { pub online_cpus: u64, pub total_usage: u64 }
+pub struct CpuStats { pub online_cpus: u64, pub total_usage: u64, system_cpu_usage: u64 }
 
 #[derive(sqlx::FromRow, Debug, Serialize, ToSchema)]
 pub struct PidsStats { pub current: u64, pub limit: u64 }
@@ -49,6 +49,8 @@ pub async fn get_usage() -> Result<Vec<Stats>, error::Error> {
                 .map_err(|e| error::Error::Internal(format!("Docker usage error: {}", e)))?
                 .ok_or_else(|| error::Error::Internal("No stats available".to_string()))?;
 
+            dbg!(&stats_raw);
+
             Ok(Stats {
                 read: stats_raw.read,
                 names: container.names,
@@ -60,6 +62,7 @@ pub async fn get_usage() -> Result<Vec<Stats>, error::Error> {
                 cpu_stats: CpuStats {
                     online_cpus: stats_raw.cpu_stats.online_cpus.unwrap_or_default(),
                     total_usage: stats_raw.cpu_stats.cpu_usage.total_usage,
+                    system_cpu_usage: stats_raw.cpu_stats.system_cpu_usage.unwrap_or_default()
                 },
                 pids_stats: PidsStats {
                     current: stats_raw.pids_stats.current.unwrap_or_default(),

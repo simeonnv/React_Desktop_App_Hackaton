@@ -1,6 +1,7 @@
 import React from "react";
 import { FloatingDock, links } from "@/components/ui/floating-dock";
-import { CardDemo } from "@/components/auth/CardDemo";
+import DockerUsage from "@/components/docker/DockerUsage";
+import { Test } from "@/components/ui/test";
 
 export default function CombinedComponent() {
   return (
@@ -10,7 +11,8 @@ export default function CombinedComponent() {
           mobileClassName="translate-y-20"
           items={links}
         />
-        <CardDemo />
+        <DockerUsage harvests="RAM" update_time={1}/>
+        <Test/>
       </div>
     </>
   );
