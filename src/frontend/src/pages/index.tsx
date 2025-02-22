@@ -1,15 +1,15 @@
 import React from "react";
 import { FloatingDock, links } from "@/components/ui/floating-dock";
-import { CardDemo } from "@/components/auth/CardDemo";
-import { SidebarDemo } from "@/components/auth/SidebarDemo";
+import { Card } from "@/components/auth/Card";
+import { Sidebar } from "@/components/auth/Sidebar";
 
 export default function CombinedComponent() {
   return (
     <>
       <div className="min-h-screen w-full bg-blue-500 flex flex-col items-center justify-center">
-        <SidebarDemo />
+        <Sidebar />
         <FloatingDock mobileClassName="translate-y-20" items={links} />
-        <CardDemo />
+        <Card />
       </div>
     </>
   );

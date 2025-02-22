@@ -1,10 +1,9 @@
 "use client";
-//import { animate, motion } from "framer-motion";
+
 import React from "react";
 import { cn } from "@/lib/utils";
-//import { GoCopilot } from "react-icons/go";
 
-export const Card = ({
+export const CardDemo = ({
   className,
   children,
 }: {

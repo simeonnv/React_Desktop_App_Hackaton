@@ -1,9 +1,9 @@
-import { Card, CardTitle, CardDescription } from "../ui/card";
-import RenderLineChart from "../ui/charts";
+import { CardDemo, CardTitle, CardDescription } from "../ui/cardDemo";
+import RenderLineChart from "../ui/RenderLineChart";
 
-export function CardDemo() {
+export function Card() {
   return (
-    <Card className="w-1/3 justify-center">
+    <CardDemo className="w-1/3 justify-center">
       <div className="ml-3">
         <CardTitle className="-mb-3">Name</CardTitle>
         <CardDescription className="mb-4">
@@ -14,6 +14,6 @@ export function CardDemo() {
       <div className="w-full h-44">
         <RenderLineChart />
       </div>
-    </Card>
+    </CardDemo>
   );
 }
