@@ -52,7 +52,7 @@ export const SidebarProvider = ({
   );
 };
 
-export const Sidebar = ({
+export const SidebarDemo = ({
   children,
   open,
   setOpen,
