@@ -1,4 +1,4 @@
-use bollard::{container::{ListContainersOptions, StatsOptions}, Docker};
+use bollard::{container::{CPUStats, ListContainersOptions, StatsOptions}, Docker};
 use serde::Serialize;
 use utoipa::ToSchema;
 use futures_util::stream::TryStreamExt;
@@ -15,6 +15,7 @@ pub struct Stats {
     pub cpu_stats: CpuStats,
     pub pids_stats: PidsStats,
     pub network: Option<Network>,
+    pub pre_cpu: CpuStats
 }
 
 #[derive(sqlx::FromRow, Debug, Serialize, ToSchema)]
@@ -63,6 +64,11 @@ pub async fn get_usage() -> Result<Vec<Stats>, error::Error> {
                     online_cpus: stats_raw.cpu_stats.online_cpus.unwrap_or_default(),
                     total_usage: stats_raw.cpu_stats.cpu_usage.total_usage,
                     system_cpu_usage: stats_raw.cpu_stats.system_cpu_usage.unwrap_or_default()
+                },
+                pre_cpu: CpuStats {
+                    online_cpus: stats_raw.precpu_stats.online_cpus.unwrap_or_default(),
+                    total_usage: stats_raw.precpu_stats.cpu_usage.total_usage,
+                    system_cpu_usage: stats_raw.precpu_stats.system_cpu_usage.unwrap_or_default(),
                 },
                 pids_stats: PidsStats {
                     current: stats_raw.pids_stats.current.unwrap_or_default(),
