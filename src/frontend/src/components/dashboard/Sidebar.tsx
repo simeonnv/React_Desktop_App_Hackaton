@@ -44,7 +44,13 @@ export default function SidebarMain() {
       icon: <IconSettings className="h-5 w-5 flex-shrink-0" />,
     },
     {
-      label: <p className="">Logout</p>,
+      label: <p className="" onClick={() => {
+
+        localStorage.removeItem('token');
+        document.cookie = `auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; samesite=strict`;
+        window.location.href = '/';
+
+      }}>Logout</p>,
       href: "#",
       icon: <IconArrowLeft className="h-5 w-5 flex-shrink-0" />,
     },

@@ -37,7 +37,7 @@ function DockerContainers() {
                         {data.data.map((container: DockerContainer) => (
                             <div
                                 key={container.id}
-                                className="border-2 border-purple-500/40 rounded-xl p-4 break-words"
+                                className="border-2 transition-all hover:bg-slate-900 border-purple-500/40 rounded-xl p-4 break-words"
                             >
                                 <div>
                                     <p>
