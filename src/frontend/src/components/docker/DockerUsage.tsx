@@ -70,10 +70,10 @@ export default function DockerUsage({ harvests, update_time, filterBy }: Props) 
         socket.close();
       }
     };
-  }, [harvests, update_time, filterBy]); // Add filterBy to dependencies
+  }, [harvests, update_time, filterBy]);
 
   const refineData = (data: UsageSockets[], metric: Props["harvests"]) => {
-    // Use the first container after filtering (assuming single container match)
+
     const container = data[0] || {};
     const time = (new Date(container.read || Date.now()).getTime() - startTime) / 1000;
 

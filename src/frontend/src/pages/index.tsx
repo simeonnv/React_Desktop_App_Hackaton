@@ -2,7 +2,7 @@ import React from "react";
 import { FloatingDock, links } from "@/components/ui/floating-dock";
 
 import { Card } from "@/components/auth/Card";
-import { Sidebar } from "@/components/dashboard/Sidebar";
+import Sidebar from "@/components/dashboard/Sidebar";
 import Searchbar from "@/components/auth/Searchbar";
 import DockerUsage from "@/components/docker/DockerUsage";
 import { Test } from "@/components/ui/test";
@@ -14,12 +14,12 @@ const queryClient = new QueryClient();
 export default function CombinedComponent() {
   return (
     <>
-      <div className="min-h-screen w-full bg-blue-500 flex flex-col items-center justify-center">
+      {/* <div className="min-h-screen w-full bg-blue-500 flex flex-col items-center justify-center">
         <Searchbar />
         <Sidebar />
 
         <Card />
-      </div>
+      </div> */}
       <QueryClientProvider client={queryClient}>
         <div className="min-h-screen w-full bg-black flex items-center justify-center">
           {/* <FloatingDock
