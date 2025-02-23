@@ -1,4 +1,29 @@
 services:
+  data_analytics_http:
+    build: ./src/DataAnalytics
+    ports:
+      - "8080:8080"
+    depends_on:
+      - hackaton_backend
+      - hackaton_database
+      - redisdb
+    networks:
+      - main  
+    environment:
+      - PORT=8080
+      - DB_URL=asyncpg://postgres:root@hackaton_database/my_database
+
+  redisdb:
+    image: redis:7.4.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass VcaTCqhmgkwjDFcj
+    networks:
+      - main
+    volumes: 
+      - hackaton:/data
+
   hackaton_backend:
     build: ./src/backend
     ports:
@@ -15,17 +40,17 @@ services:
     networks:
       - main
 
-  hackaton_frontend:
-    build: ./src/frontend
-    ports:
-      - "7004:7004"
-    volumes:
-      - ./src/frontend:/app
-      - /app/node_modules
-    depends_on:
-      - hackaton_backend
-    networks:
-      - main
+  # hackaton_frontend:
+  #   build: ./src/frontend
+  #   ports:
+  #     - "7004:7004"
+  #   volumes:
+  #     - ./src/frontend:/app
+  #     - /app/node_modules
+  #   depends_on:
+  #     - hackaton_backend
+  #   networks:
+  #     - main
     # environment:
     #   - API_URL=http://backend_service:6004
 
@@ -57,7 +82,7 @@ services:
 
 volumes:
   hackaton: 
-    external: true 
+    external: true
 
 networks:
   main:

@@ -1,0 +1,10 @@
+tortoise-orm[asyncpg]
+fastapi[standard]
+pydantic
+multimethod
+redis[hiredis]
+aiohttp
+loguru
+pandas
+
+https://github.com/HexChap/MSCore/archive/refs/heads/master.zip
