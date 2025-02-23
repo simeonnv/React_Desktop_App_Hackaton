@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { createContext, useState, useContext } from "react"; // Add useContext if you'll use it elsewhere
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 import {
   IconArrowLeft,
@@ -13,43 +13,40 @@ import { cn } from "@/lib/utils";
 import DockerUsage from "../docker/DockerUsage";
 import DockerContainers from "./DockerContainers";
 
+// Define the shape of the context value
+interface DashboardContextType {
+  selectedContainer: { type: "id" | "name"; value: string } | null;
+  setSelectedContainer: React.Dispatch<
+    React.SetStateAction<{ type: "id" | "name"; value: string } | null>
+  >;
+}
+
+// Create the context with a default value
+const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
+
 export default function SidebarMain() {
+  const [selectedContainer, setSelectedContainer] = useState<{ type: "id" | "name"; value: string } | null>(null);
+
   const links = [
     {
-      label: (
-        <p className="">Dashboard</p>
-      ),
+      label: <p className="">Dashboard</p>,
       href: "#",
-      icon: (
-        <IconBrandTabler className=" h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <IconBrandTabler className="h-5 w-5 flex-shrink-0" />,
     },
     {
-      label: (
-        <p className="">Profile</p>
-      ),
+      label: <p className="">Profile</p>,
       href: "#",
-      icon: (
-        <IconUserBolt className=" h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <IconUserBolt className="h-5 w-5 flex-shrink-0" />,
     },
     {
-      label: (
-        <p className="">Settings</p>
-      ),
+      label: <p className="">Settings</p>,
       href: "#",
-      icon: (
-        <IconSettings className=" h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <IconSettings className="h-5 w-5 flex-shrink-0" />,
     },
     {
-      label: (
-        <p className="">Logout</p>
-      ),
+      label: <p className="">Logout</p>,
       href: "#",
-      icon: (
-        <IconArrowLeft className=" h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <IconArrowLeft className="h-5 w-5 flex-shrink-0" />,
     },
   ];
 
@@ -69,10 +66,10 @@ export default function SidebarMain() {
               href="#"
               className="font-normal flex space-x-2 items-center justify-center py-1 relative z-20"
             >
-              <IconBrandDocker className=" h-5 w-5 flex-shrink-0" />
+              <IconBrandDocker className="h-5 w-5 flex-shrink-0" />
               <motion.span
                 animate={{ opacity: open ? 1 : 0, width: open ? "auto" : 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }} // Adjust duration to match sidebar
+                transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="font-medium text-black dark:text-white whitespace-pre overflow-hidden"
               >
                 <p className="">Open Docker Monitoring</p>
@@ -86,7 +83,17 @@ export default function SidebarMain() {
           </div>
         </SidebarBody>
       </Sidebar>
-      <DockerContainers/>
+      <DashboardContext.Provider value={{ selectedContainer, setSelectedContainer }}>
+        <DockerContainers />
+      </DashboardContext.Provider>
     </div>
   );
 }
+
+export const useDashboard = () => {
+  const context = useContext(DashboardContext);
+  if (context === undefined) {
+    throw new Error("useDashboard must be used within a DashboardContext.Provider");
+  }
+  return context;
+};
