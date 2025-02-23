@@ -29,6 +29,8 @@ export default function DockerUsage({ harvests, update_time, filterBy }: Props) 
         let data: UsageSockets[] = JSON.parse(event.data);
         console.log("Received data:", data);
 
+        console.log(data)
+
         // Apply filtering if filterBy is provided
         if (filterBy) {
           data = data.filter((container) =>

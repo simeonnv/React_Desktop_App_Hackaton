@@ -40,19 +40,19 @@ services:
     networks:
       - main
 
-  # hackaton_frontend:
-  #   build: ./src/frontend
-  #   ports:
-  #     - "7004:7004"
-  #   volumes:
-  #     - ./src/frontend:/app
-  #     - /app/node_modules
-  #   depends_on:
-  #     - hackaton_backend
-  #   networks:
-  #     - main
-    # environment:
-    #   - API_URL=http://backend_service:6004
+  hackaton_frontend:
+    build: ./src/frontend
+    ports:
+      - "7004:7004"
+    volumes:
+      - ./src/frontend:/app
+      - /app/node_modules
+    depends_on:
+      - hackaton_backend
+    networks:
+      - main
+    environment:
+      - API_URL=http://backend_service:6004
 
   hackaton_database:
     image: postgres:latest

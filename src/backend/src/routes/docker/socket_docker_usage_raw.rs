@@ -7,7 +7,7 @@ use std::time::{Duration, Instant};
 use tokio::time::interval;
 use utoipa::ToSchema;
 
-use crate::libs::docker::get_usage::get_usage;
+use crate::libs::docker::get_raw_usage::{get_raw_usage};
 
 struct MyWebSocket {
     hb: Instant,
@@ -28,7 +28,7 @@ impl Actor for MyWebSocket {
             loop {
                 interval.tick().await;
 
-                match get_usage().await {
+                match get_raw_usage().await {
                     Ok(containers) => {
                         if let Ok(json) = serde_json::to_string(&containers) {
                             // dbg!(&containers);
@@ -100,7 +100,7 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for MyWebSocket {
     tag = "Docker",
     description = "Establishes a WebSocket connection that streams Docker container usage data at the specified interval.\n\nMessages are sent as JSON arrays of Stats objects."
 )]
-pub async fn socket_docker_usage(
+pub async fn socket_docker_usage_raw(
     req: HttpRequest,
     stream: web::Payload,
     query: web::Query<WsQuery>,
