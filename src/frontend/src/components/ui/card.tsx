@@ -1,26 +1,6 @@
-"use client";
+import * as React from "react"
 
-import React from "react";
-import { cn } from "@/lib/utils";
-
-export const CardDemo = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <div
-      className={cn(
-        "mx-auto p-8 rounded-xl border bg-black shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group",
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
-};
+import { cn } from "@/lib/utils"
 
 const Card = React.forwardRef<
   HTMLDivElement,
