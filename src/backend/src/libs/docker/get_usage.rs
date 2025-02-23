@@ -49,7 +49,7 @@ pub async fn get_usage() -> Result<Vec<Stats>, error::Error> {
                 .map_err(|e| error::Error::Internal(format!("Docker usage error: {}", e)))?
                 .ok_or_else(|| error::Error::Internal("No stats available".to_string()))?;
 
-            dbg!(&stats_raw);
+            // dbg!(&stats_raw);
 
             Ok(Stats {
                 read: stats_raw.read,

@@ -11,7 +11,11 @@ export default function CombinedComponent() {
           mobileClassName="translate-y-20"
           items={links}
         />
-        <DockerUsage harvests="RAM" update_time={1}/>
+        <DockerUsage 
+          harvests="RAM" 
+          update_time={1} 
+          filterBy={{ type: "id", value: "4e44e1b6e0cb93e9abffd9e2513fca065194c5095146153d7072794529fb43b9" }} 
+        />
         <Test/>
       </div>
     </>

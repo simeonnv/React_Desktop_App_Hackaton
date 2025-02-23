@@ -30,7 +30,7 @@ impl Actor for MyWebSocket {
                 match get_usage().await {
                     Ok(containers) => {
                         if let Ok(json) = serde_json::to_string(&containers) {
-                            dbg!(&containers);
+                            // dbg!(&containers);
                             addr.do_send(WsMessage(json));
                         }
                     }
